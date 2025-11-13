@@ -1,1 +1,1 @@
-# seulburg
+# template-center-slider
