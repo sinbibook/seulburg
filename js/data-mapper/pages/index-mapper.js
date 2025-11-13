@@ -436,29 +436,18 @@ class IndexMapper extends BaseDataMapper {
         }
     }
 
-    mapReservationSection() {
-        const reservationHero = this.safeGet(this.data, 'homepage.customFields.pages.reservation.sections.0.hero');
-        if (!reservationHero) return;
+    /**
+     * Closing 섹션 매핑 (하단 배너)
+     * @private
+     */
+    mapClosingSection() {
+        const closingData = this.safeGet(this.data, 'homepage.customFields.pages.index.sections.0.closing');
+        if (!closingData) return;
 
-        const titleEl = this.safeSelect('[data-index-reservation-title]');
-        if (titleEl && reservationHero.title) {
-            titleEl.textContent = reservationHero.title;
-        }
-
-        const descriptionEl = this.safeSelect('[data-index-reservation-description]');
-        if (descriptionEl && reservationHero.description) {
-            descriptionEl.innerHTML = reservationHero.description.replace(/\n/g, '<br>');
-        }
-
-        const heroTextEl = this.safeSelect('[data-index-reservation-hero]');
-        if (heroTextEl && reservationHero.description) {
-            heroTextEl.innerHTML = reservationHero.description.replace(/\n/g, '<br>');
-        }
-
-        const bannerEl = this.safeSelect('[data-homepage-customFields-pages-reservation-sections-0-hero-images-0]');
+        const bannerEl = this.safeSelect('[data-homepage-customFields-pages-index-sections-0-closing-images-0]');
         if (bannerEl) {
             // 선택된 이미지 중 첫 번째 사용
-            const selectedImages = reservationHero.images?.filter(img => img.isSelected) || [];
+            const selectedImages = closingData.images?.filter(img => img.isSelected) || [];
             const heroImage = selectedImages[0] || null;
             const imageUrl = heroImage?.url || ImageHelpers.EMPTY_IMAGE_WITH_ICON;
 
@@ -476,7 +465,7 @@ class IndexMapper extends BaseDataMapper {
             } else {
                 bannerEl.classList.remove('empty-image-placeholder');
                 // Add the actual URL as a data attribute for reference
-                bannerEl.setAttribute('data-homepage-customFields-pages-reservation-sections-0-hero-images-0-url', heroImage.url);
+                bannerEl.setAttribute('data-homepage-customFields-pages-index-sections-0-closing-images-0-url', heroImage.url);
             }
         }
     }
@@ -498,7 +487,7 @@ class IndexMapper extends BaseDataMapper {
         this.mapEssenceSection();
         this.mapSpecialsSection();
         this.mapRoomsSection();
-        this.mapReservationSection();
+        this.mapClosingSection();
 
         // 메타 태그 업데이트
         this.updateMetaTags(this.data.property);
