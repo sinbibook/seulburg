@@ -1270,14 +1270,6 @@ table {
     letter-spacing: 0.1em;
     font-size: clamp(1.8rem, 5vw, 2.4rem);
   }
-  .mainWrap .heroSlider .heroOverlay {
-    padding: clamp(1rem, 3vw, 2rem);
-    justify-content: flex-end;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 3rem;
-  }
   .heroSlider .prev,
   .heroSlider .next {
     width: 46px;
@@ -1839,12 +1831,12 @@ table {
     letter-spacing: 0.06em;
     font-size: clamp(1.9rem, 7vw, 3rem);
   }
-  .heroOverlay {
+  .mainWrap .heroSlider .heroOverlay {
     padding: clamp(1rem, 3vw, 2rem);
-    align-items: flex-end;
-    justify-content: center;
+    justify-content: flex-end;
+    align-items: center;
     margin-left: 0;
-    margin-bottom: 0;
+    margin-bottom: 3rem;
     text-align: center;
   }
   .heroSlider .prev,
