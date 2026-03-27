@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "version": "1.23.0",
-    "generatedAt": "2026-02-09T09:11:14.762Z",
+    "version": "1.24.0",
+    "generatedAt": "2026-03-27T07:25:10.974Z",
     "templateType": "center_slider",
     "propertyId": "d15f9dd3-7fe4-4997-b938-d789e153803a",
     "homepageId": "74674c96-f959-455a-8a1e-83dd1889b767"
@@ -403,7 +403,15 @@
     },
     "images": [
       {
-        "thumbnail": [],
+        "thumbnail": [
+          {
+            "id": "f2f37cc3-520b-425f-8f94-d72683bed34a",
+            "url": "https://jlnjajtcnyqupfaqjerz.supabase.co/storage/v1/object/public/app-images/property/d15f9dd3-7fe4-4997-b938-d789e153803a/thumbnail/1774233180208-khc6jhovknp.jpg",
+            "sortOrder": 0,
+            "description": "",
+            "isSelected": true
+          }
+        ],
         "exterior": [
           {
             "id": "0052455d-6339-43a3-a216-739458b0f46f",
@@ -420,30 +428,9 @@
             "isSelected": true
           },
           {
-            "id": "cb8be5b5-c6f8-4712-8e5a-88218f52646c",
-            "url": "https://jlnjajtcnyqupfaqjerz.supabase.co/storage/v1/object/public/app-images/property/d15f9dd3-7fe4-4997-b938-d789e153803a/exterior/1762915344804-02ygv0a16txg.jpg",
-            "sortOrder": 0,
-            "description": "",
-            "isSelected": true
-          },
-          {
             "id": "bc05b8cd-8f49-4730-be8e-af9112b82fca",
             "url": "https://jlnjajtcnyqupfaqjerz.supabase.co/storage/v1/object/public/app-images/property/d15f9dd3-7fe4-4997-b938-d789e153803a/exterior/1762411852607-52sw0nysqa9.jpg",
             "sortOrder": 3,
-            "description": "",
-            "isSelected": true
-          },
-          {
-            "id": "5c21e006-74c4-4871-abc2-95377a90d310",
-            "url": "https://jlnjajtcnyqupfaqjerz.supabase.co/storage/v1/object/public/app-images/property/d15f9dd3-7fe4-4997-b938-d789e153803a/exterior/1762411852607-5o6lxe4k7mt.jpg",
-            "sortOrder": 8,
-            "description": "",
-            "isSelected": false
-          },
-          {
-            "id": "af828f3d-2be0-4fcb-8c51-6c4600a404a4",
-            "url": "https://jlnjajtcnyqupfaqjerz.supabase.co/storage/v1/object/public/app-images/property/d15f9dd3-7fe4-4997-b938-d789e153803a/exterior/1762411852607-ufukw1lmpvd.jpg",
-            "sortOrder": 4,
             "description": "",
             "isSelected": true
           },
@@ -474,6 +461,27 @@
             "sortOrder": 2,
             "description": "",
             "isSelected": true
+          },
+          {
+            "id": "cb8be5b5-c6f8-4712-8e5a-88218f52646c",
+            "url": "https://jlnjajtcnyqupfaqjerz.supabase.co/storage/v1/object/public/app-images/property/d15f9dd3-7fe4-4997-b938-d789e153803a/exterior/1762915344804-02ygv0a16txg.jpg",
+            "sortOrder": 0,
+            "description": "",
+            "isSelected": true
+          },
+          {
+            "id": "5c21e006-74c4-4871-abc2-95377a90d310",
+            "url": "https://jlnjajtcnyqupfaqjerz.supabase.co/storage/v1/object/public/app-images/property/d15f9dd3-7fe4-4997-b938-d789e153803a/exterior/1762411852607-5o6lxe4k7mt.jpg",
+            "sortOrder": 8,
+            "description": "",
+            "isSelected": false
+          },
+          {
+            "id": "af828f3d-2be0-4fcb-8c51-6c4600a404a4",
+            "url": "https://jlnjajtcnyqupfaqjerz.supabase.co/storage/v1/object/public/app-images/property/d15f9dd3-7fe4-4997-b938-d789e153803a/exterior/1762411852607-ufukw1lmpvd.jpg",
+            "sortOrder": 4,
+            "description": "",
+            "isSelected": true
           }
         ],
         "surrounding": [],
@@ -491,6 +499,7 @@
       "name": "풀빌라 Orora (스파, 개별테라스바베큐)",
       "description": "분리형복층: \n- 1층 : 거실1+주방1+침대룸1+화장실1+풀빌라+제트스파+테라스\n- 2층: 침대룸1+화장실1",
       "roomInfo": "[인원추가(1박기준/현장결제)]\n24개월 이상 1인 30,000원\n24개월 미만(영유아) 1인 10,000원\n\n[추가 어메니티]\n정수기, 오락기, 돌체커피머신, 튜브, 구명조끼, 취사도구 / 식기 ",
+      "usageGuide": "",
       "group": null,
       "size": 171,
       "baseOccupancy": 2,
@@ -707,6 +716,7 @@
       "name": "풀빌라 Elena (스파, 개별테라스바베큐)",
       "description": "분리형복층: \n- 1층 : 거실1+주방1+침대룸1+화장실1+풀빌라+제트스파+테라스\n- 2층: 침대룸1+화장실1",
       "roomInfo": "[인원추가(1박기준/현장결제)]\n24개월 이상 1인 30,000원\n24개월 미만(영유아) 1인 10,000원\n\n[추가 어메니티]\n정수기, 오락기, 돌체커피머신, 튜브, 구명조끼, 취사도구 / 식기 ",
+      "usageGuide": "- 구비 품목 추가 \n[인원추가(1박기준/현장결제)]\n24개월 이상 1인 30,000원\n24개월 미만(영유아) 1인 10,000원",
       "group": null,
       "size": 170,
       "baseOccupancy": 2,
@@ -950,6 +960,7 @@
       "name": "풀빌라 Marcia (스파, 개별테라스바베큐)",
       "description": "분리형복층: \n- 1층 : 거실1+주방1+침대룸1+화장실1+풀빌라+제트스파+테라스\n- 2층: 침대룸1+화장실1",
       "roomInfo": "[인원추가(1박기준/현장결제)]\n24개월 이상 1인 30,000원\n24개월 미만(영유아) 1인 10,000원\n\n[추가 어메니티]\n정수기, 오락기, 돌체커피머신, 튜브, 구명조끼, 취사도구 / 식기 ",
+      "usageGuide": "- 구비 품목 추가 \n[인원추가(1박기준/현장결제)]\n24개월 이상 1인 30,000원\n24개월 미만(영유아) 1인 10,000원",
       "group": null,
       "size": 170,
       "baseOccupancy": 2,
@@ -2329,7 +2340,6 @@
           ]
         }
       ]
-    },
-    "id": "74674c96-f959-455a-8a1e-83dd1889b767"
+    }
   }
 }
