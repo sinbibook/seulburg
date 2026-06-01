@@ -1,1 +1,1 @@
-# template-center-slider
+# template-fullpage-scroll Template

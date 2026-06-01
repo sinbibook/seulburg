@@ -1,418 +1,802 @@
 /**
- * Index Page Functionality
- * 메인 페이지 스크롤 애니메이션 및 인터랙션
+ * Hero Slider with Zoom Animation
  */
+class HeroSlider {
+    constructor() {
+        this.currentSlide = 0;
+        this.totalSlides = 0;
+        this.slideDuration = 4000; // 4초
+        this.slides = [];
+        this.progressFill = null;
+        this.sliderContainer = null;
+        this.autoSlideInterval = null;
+    }
 
-// Smooth scroll to next section
-function scrollToNextSection() {
-    const nextSection = document.querySelector('.essence-section');
-    if (nextSection) {
-        nextSection.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start'
-        });
+    init() {
+        this.sliderContainer = document.querySelector('[data-hero-slider]');
+        this.progressFill = document.querySelector('[data-hero-progress]');
+
+        if (!this.sliderContainer) return;
+
+        this.loadSlides();
+
+        // 슬라이드가 1개 이하면 자동슬라이드 비활성화
+        if (this.totalSlides <= 1) {
+            this.updateIndicators();
+            if (this.slides[0]) {
+                this.startZoomAnimation(this.slides[0]);
+            }
+            return;
+        }
+
+        this.updateIndicators();
+        this.startAutoSlide();
+    }
+
+    loadSlides() {
+        // mapper가 생성한 슬라이드 사용
+        this.slides = Array.from(this.sliderContainer.querySelectorAll('.hero-slide'));
+        this.totalSlides = this.slides.length;
+
+        // 첫 번째 슬라이드 줌인 시작
+        if (this.slides[0]) {
+            this.startZoomAnimation(this.slides[0]);
+        }
+    }
+
+    startZoomAnimation(slide) {
+        const img = slide.querySelector('img');
+        if (img) {
+            // 줌 아웃 상태로 초기화
+            img.style.transform = 'scale(1)';
+            img.style.transition = 'none';
+
+            // 약간의 지연 후 줌인 시작
+            setTimeout(() => {
+                img.style.transition = `transform ${this.slideDuration}ms ease-out`;
+                img.style.transform = 'scale(1.15)';
+            }, 100);
+        }
+    }
+
+    nextSlide() {
+        // 현재 슬라이드를 비활성화
+        this.slides[this.currentSlide].classList.remove('active');
+
+        // 다음 슬라이드로 이동
+        this.currentSlide = (this.currentSlide + 1) % this.totalSlides;
+
+        // 새 슬라이드 활성화
+        this.slides[this.currentSlide].classList.add('active');
+
+        // 줌인 애니메이션 시작
+        this.startZoomAnimation(this.slides[this.currentSlide]);
+
+        // 인디케이터 업데이트
+        this.updateIndicators();
+    }
+
+    updateIndicators() {
+        const currentEl = document.querySelector('[data-current-slide]');
+        const totalEl = document.querySelector('[data-total-slides]');
+
+        if (currentEl) {
+            currentEl.textContent = String(this.currentSlide + 1).padStart(2, '0');
+        }
+        if (totalEl) {
+            totalEl.textContent = String(this.totalSlides).padStart(2, '0');
+        }
+    }
+
+    animateProgress() {
+        if (!this.progressFill) return;
+
+        // 프로그레스바 초기화
+        this.progressFill.style.transition = 'none';
+        this.progressFill.style.width = '0%';
+
+        // 강제 리플로우
+        this.progressFill.offsetHeight;
+
+        // 애니메이션 시작
+        setTimeout(() => {
+            this.progressFill.style.transition = `width ${this.slideDuration}ms linear`;
+            this.progressFill.style.width = '100%';
+        }, 50);
+    }
+
+    startAutoSlide() {
+        // 첫 번째 프로그레스바 애니메이션 시작
+        this.animateProgress();
+
+        this.autoSlideInterval = setInterval(() => {
+            this.nextSlide();
+            this.animateProgress();
+        }, this.slideDuration);
+    }
+
+    stop() {
+        if (this.autoSlideInterval) {
+            clearInterval(this.autoSlideInterval);
+            this.autoSlideInterval = null;
+        }
     }
 }
 
-// Enhanced Intersection Observer with React-style Staggered Animations
-function initScrollAnimations() {
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    };
+/**
+ * Gallery Slider - Flex 기반 깔끔한 캐러셀
+ */
+class GallerySlider {
+    constructor() {
+        this.slider = null;
+        this.index = 0;
+        this.intervalId = null;
+        this.isPaused = false;
+        this.slideDuration = 3000; // 3초마다 슬라이드
+        this.slideCount = 0;
 
-    const observer = new IntersectionObserver(function(entries) {
+        // 상수 정의
+        this.SLIDE_GAP = 30;           // 슬라이드 간 간격 (px)
+        this.INITIAL_DELAY = 2000;     // 초기 자동 슬라이드 지연 시간 (ms)
+    }
+
+    init() {
+        this.slider = document.querySelector('[data-gallery-slider]');
+        if (!this.slider) {
+            return;
+        }
+
+        this.setupGallery();
+    }
+
+    setupGallery() {
+        // mapper가 생성한 슬라이드 읽기
+        const originalSlides = Array.from(this.slider.querySelectorAll('.gallery-item'));
+        this.slideCount = originalSlides.length;
+
+        // 슬라이드가 없으면 종료
+        if (this.slideCount === 0) {
+            return;
+        }
+
+        // 무한 루프를 위해 원본 이미지들을 여러 번 복제 (3번 더 복제해서 총 4세트)
+        for (let i = 0; i < 3; i++) {
+            originalSlides.forEach(slide => {
+                this.slider.appendChild(slide.cloneNode(true));
+            });
+        }
+
+        // 시작 위치 설정
+        this.index = 0;
+
+        // 슬라이드 시작
+        this.startSlider();
+    }
+
+    addFadeOverlays() {
+        const galleryContainer = document.querySelector('.gallery-container');
+
+        if (galleryContainer) {
+            // 왼쪽 페이드 오버레이
+            const leftOverlay = document.createElement('div');
+            leftOverlay.className = 'gallery-fade-left';
+            leftOverlay.style.cssText = `
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 200px;
+                height: 100%;
+                background: linear-gradient(to right, rgba(255, 236, 210, 1) 0%, rgba(255, 236, 210, 0.8) 20%, rgba(255, 236, 210, 0) 100%);
+                pointer-events: none;
+                z-index: 100;
+            `;
+
+            // 오른쪽 페이드 오버레이
+            const rightOverlay = document.createElement('div');
+            rightOverlay.className = 'gallery-fade-right';
+            rightOverlay.style.cssText = `
+                position: absolute;
+                top: 0;
+                right: 0;
+                width: 200px;
+                height: 100%;
+                background: linear-gradient(to left, rgba(255, 236, 210, 1) 0%, rgba(255, 236, 210, 0.8) 20%, rgba(255, 236, 210, 0) 100%);
+                pointer-events: none;
+                z-index: 100;
+            `;
+
+            galleryContainer.appendChild(leftOverlay);
+            galleryContainer.appendChild(rightOverlay);
+        }
+    }
+
+    startSlider() {
+        // 슬라이더 초기 위치 설정 (버퍼 고려)
+        const firstItem = this.slider.querySelector('.gallery-item');
+        if (firstItem) {
+            const itemWidth = firstItem.offsetWidth + this.SLIDE_GAP;
+            this.slider.style.transform = `translateX(-${this.index * itemWidth}px)`;
+        }
+
+        // 호버 이벤트
+        this.slider.addEventListener('mouseenter', () => {
+            this.isPaused = true;
+        });
+
+        this.slider.addEventListener('mouseleave', () => {
+            this.isPaused = false;
+        });
+
+        // 자동 슬라이드 활성화
+        setTimeout(() => {
+            this.intervalId = setInterval(() => {
+                if (!this.isPaused) {
+                    this.move();
+                }
+            }, this.slideDuration);
+        }, this.INITIAL_DELAY);
+    }
+
+    move() {
+        // 이미지 너비 계산 (첫 번째 아이템 기준)
+        const firstItem = this.slider.querySelector('.gallery-item');
+        if (!firstItem) return;
+
+        const itemWidth = firstItem.offsetWidth + this.SLIDE_GAP; // gap 포함
+
+        // 2세트를 지나면 리셋 (자연스러운 무한 루프)
+        if (this.index >= this.slideCount * 2) {
+            // 즉시 리셋 (애니메이션 없이)
+            this.slider.style.transition = 'none';
+            this.index = 0;
+            this.slider.style.transform = `translateX(0px)`;
+
+            // 리플로우 후 애니메이션 재적용
+            void this.slider.offsetWidth;
+            this.slider.style.transition = 'transform 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
+        }
+
+        this.index += 1;
+        const moveDistance = this.index * itemWidth;
+        this.slider.style.transform = `translateX(-${moveDistance}px)`;
+    }
+
+    stop() {
+        if (this.intervalId) {
+            clearInterval(this.intervalId);
+        }
+    }
+}
+
+/**
+ * Fullpage Scroll
+ */
+class FullpageScroll {
+    constructor() {
+        this.sections = [];
+        this.currentSection = 0;
+        this.isScrolling = false;
+        this.wheelTimeout = null;
+        this.touchStartY = 0;
+        this.touchStartTime = 0;
+        this.isInFooter = false;
+
+        this.init();
+    }
+
+    init() {
+        // 모바일에서는 fullpage scroll 비활성화
+        if (window.innerWidth <= 768) {
+            // 모바일에서 일반 스크롤 활성화
+            document.body.style.overflow = 'auto';
+            document.body.style.height = 'auto';
+
+            // fullpage 컨테이너 스타일 변경
+            const fullpage = document.getElementById('fullpage');
+            if (fullpage) {
+                fullpage.style.height = 'auto';
+            }
+
+            // 모든 섹션 높이 자동으로 변경
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => {
+                section.style.height = 'auto';
+                section.style.minHeight = (section.classList.contains('hero-section') || section.classList.contains('closing-section')) ? '50vh' : '100vh';
+            });
+
+            // fp-section 클래스 제거
+            document.querySelectorAll('.fp-section').forEach(el => {
+                el.classList.remove('fp-section');
+            });
+
+            // Navigation dots 숨기기
+            const fpNav = document.querySelector('.fp-nav');
+            if (fpNav) {
+                fpNav.style.display = 'none';
+            }
+
+            return;
+        }
+
+        this.sections = document.querySelectorAll('.fp-section');
+        this.initNavigation();
+        this.initScrollListener();
+        this.initWheelListener();
+        this.initTouchListener();
+        this.updateActiveSection();
+    }
+
+    initNavigation() {
+        const navLinks = document.querySelectorAll('.fp-nav a');
+        navLinks.forEach((link, index) => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.goToSection(index);
+            });
+        });
+    }
+
+    initScrollListener() {
+        let scrollTimeout;
+
+        window.addEventListener('scroll', () => {
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(() => {
+                this.updateActiveSection();
+            }, 100);
+        });
+    }
+
+    initWheelListener() {
+        window.addEventListener('wheel', (e) => {
+            if (this.isScrolling) {
+                e.preventDefault();
+                return;
+            }
+
+            // 마지막 섹션에서 아래로 스크롤하거나 푸터 영역에 있으면 일반 스크롤 허용
+            const lastSection = this.sections[this.sections.length - 1];
+            const lastSectionBottom = lastSection.offsetTop + lastSection.offsetHeight;
+            const currentScrollPosition = window.scrollY + window.innerHeight;
+
+            if (currentScrollPosition >= lastSectionBottom || this.isInFooter) {
+                return; // 일반 스크롤 허용
+            }
+
+            e.preventDefault();
+
+            clearTimeout(this.wheelTimeout);
+            this.wheelTimeout = setTimeout(() => {
+                if (e.deltaY > 0) {
+                    // 아래로 스크롤
+                    this.nextSection();
+                } else {
+                    // 위로 스크롤
+                    this.prevSection();
+                }
+            }, 50);
+        }, { passive: false });
+    }
+
+    initTouchListener() {
+        window.addEventListener('touchstart', (e) => {
+            this.touchStartY = e.touches[0].clientY;
+            this.touchStartTime = Date.now();
+        }, { passive: true });
+
+        window.addEventListener('touchend', (e) => {
+            if (this.isScrolling) return;
+
+            const touchEndY = e.changedTouches[0].clientY;
+            const touchDuration = Date.now() - this.touchStartTime;
+            const touchDistance = Math.abs(touchEndY - this.touchStartY);
+
+            // 최소 거리와 최대 시간 체크 (스와이프 감지)
+            if (touchDistance > 50 && touchDuration < 500) {
+                // 마지막 섹션에서 아래로 스와이프하거나 푸터 영역에 있으면 일반 스크롤 허용
+                const lastSection = this.sections[this.sections.length - 1];
+                const lastSectionBottom = lastSection.offsetTop + lastSection.offsetHeight;
+                const currentScrollPosition = window.scrollY + window.innerHeight;
+
+                if (currentScrollPosition >= lastSectionBottom || this.isInFooter) {
+                    return; // 일반 스크롤 허용
+                }
+
+                if (touchEndY < this.touchStartY) {
+                    // 아래로 스와이프
+                    this.nextSection();
+                } else {
+                    // 위로 스와이프
+                    this.prevSection();
+                }
+            }
+        }, { passive: true });
+    }
+
+    updateActiveSection() {
+        const scrollPosition = window.scrollY + window.innerHeight / 2;
+        const footer = document.querySelector('.footer');
+
+        // 푸터 영역 체크
+        if (footer) {
+            const footerTop = footer.offsetTop;
+            this.isInFooter = window.scrollY + window.innerHeight > footerTop;
+        }
+
+        this.sections.forEach((section, index) => {
+            const sectionTop = section.offsetTop;
+            const sectionBottom = sectionTop + section.offsetHeight;
+
+            if (scrollPosition >= sectionTop && scrollPosition <= sectionBottom) {
+                this.currentSection = index;
+                this.updateNavigation();
+
+                // 갤러리 또는 클로징 섹션 체크
+                if (section.classList.contains('gallery-section') || section.classList.contains('closing-section')) {
+                    document.body.classList.add('dark-section-active');
+                } else {
+                    document.body.classList.remove('dark-section-active');
+                }
+
+                // Footer 가시성 체크 (스크롤 끝)
+                const windowHeight = window.innerHeight;
+                const documentHeight = document.documentElement.scrollHeight;
+                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+                // 스크롤이 거의 끝에 도달했을 때 (footer가 보일 때)
+                if (scrollTop + windowHeight >= documentHeight - 100) {
+                    document.body.classList.add('footer-visible');
+                } else {
+                    document.body.classList.remove('footer-visible');
+                }
+            }
+        });
+    }
+
+    updateNavigation() {
+        const navLinks = document.querySelectorAll('.fp-nav a');
+        navLinks.forEach((link, index) => {
+            if (index === this.currentSection) {
+                link.classList.add('active');
+            } else {
+                link.classList.remove('active');
+            }
+        });
+    }
+
+    nextSection() {
+        if (this.currentSection < this.sections.length - 1) {
+            this.goToSection(this.currentSection + 1);
+        } else {
+            // 마지막 섹션에서 푸터로 스크롤
+            const footer = document.querySelector('.footer');
+            if (footer) {
+                footer.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+    }
+
+    prevSection() {
+        if (this.currentSection > 0) {
+            this.goToSection(this.currentSection - 1);
+        }
+    }
+
+    goToSection(index) {
+        if (this.isScrolling || index < 0 || index >= this.sections.length) return;
+
+        this.isScrolling = true;
+        this.currentSection = index;
+
+        const targetSection = this.sections[index];
+        targetSection.scrollIntoView({ behavior: 'smooth' });
+
+        this.updateNavigation();
+
+        // 애니메이션 트리거
+        this.triggerSectionAnimation(targetSection);
+
+        // 스크롤 완료 후 잠금 해제
+        setTimeout(() => {
+            this.isScrolling = false;
+        }, 1000);
+    }
+
+    triggerSectionAnimation(section) {
+        // 모든 섹션의 애니메이션 리셋
+        this.sections.forEach(s => {
+            const elements = s.querySelectorAll('.animate-element');
+            elements.forEach(el => {
+                el.classList.remove('animate');
+                // 강제 리플로우
+                el.offsetHeight;
+            });
+        });
+
+        // 히어로 섹션(첫 번째 섹션)은 스킵
+        if (section.classList.contains('hero-section')) {
+            return;
+        }
+
+        // 현재 섹션의 애니메이션 트리거 (약간의 지연 후)
+        setTimeout(() => {
+            const elements = section.querySelectorAll('.animate-element');
+            elements.forEach(el => {
+                // 인라인 스타일 제거 (CSS가 처리하도록)
+                el.style.removeProperty('opacity');
+                el.style.removeProperty('transform');
+                el.classList.add('animate');
+            });
+        }, 200);
+    }
+
+    // 페이지 로드 시 현재 섹션의 텍스트 즉시 표시 (새로고침 시)
+    checkAndTriggerCurrentSectionAnimation() {
+        // 현재 스크롤 위치에 따라 활성 섹션 결정
+        const scrollPosition = window.scrollY + window.innerHeight / 2;
+
+        for (const [index, section] of this.sections.entries()) {
+            const sectionTop = section.offsetTop;
+            const sectionBottom = sectionTop + section.offsetHeight;
+
+            if (scrollPosition >= sectionTop && scrollPosition <= sectionBottom) {
+                this.currentSection = index;
+
+                // 히어로 섹션이 아닌 경우에만 텍스트 즉시 표시
+                if (!section.classList.contains('hero-section')) {
+                    const elements = section.querySelectorAll('.animate-element');
+
+                    // 새로고침 시 텍스트를 즉시 표시 (애니메이션 없이)
+                    elements.forEach(el => {
+                        // 애니메이션 클래스 추가하고 즉시 표시
+                        el.style.opacity = '1';
+                        el.style.transform = 'translateY(0)';
+                        el.classList.add('animate');
+                    });
+                }
+
+                this.updateNavigation();
+                return;
+            }
+        }
+    }
+}
+
+/**
+ * 스크롤 감지 및 UI 업데이트
+ */
+function initScrollDetection() {
+    function updateScrollState() {
+        const scrolled = window.scrollY > 50;
+
+        if (scrolled) {
+            document.body.classList.add('scrolled');
+        } else {
+            document.body.classList.remove('scrolled');
+        }
+    }
+
+    // 초기 상태 설정
+    updateScrollState();
+
+    // 스크롤 이벤트 리스너
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+        if (!ticking) {
+            requestAnimationFrame(() => {
+                updateScrollState();
+                ticking = false;
+            });
+            ticking = true;
+        }
+    });
+}
+
+// 모바일 스크롤 애니메이션 초기화 함수
+function initMobileAnimations() {
+    const animateElements = document.querySelectorAll('.animate-element');
+
+    if (!animateElements.length) return;
+
+    const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                // Special handling for gallery items with staggered animation
-                if (entry.target.classList.contains('gallery-item')) {
-                    const galleryItems = Array.from(entry.target.parentElement.children);
-                    const index = galleryItems.indexOf(entry.target);
-                    const delays = [0, 0.2, 0.4, 0.6]; // React delay values
-
-                    setTimeout(() => {
-                        entry.target.classList.add('animate');
-                    }, (delays[index] || 0) * 1000);
-                } else {
+                // 약간의 지연을 두고 애니메이션 실행
+                setTimeout(() => {
                     entry.target.classList.add('animate');
-                }
+                }, entry.target.dataset.delay || 0);
             }
         });
-    }, observerOptions);
-
-    // Observe all animatable elements
-    document.querySelectorAll('.fade-in-up, .fade-in-scale, .gallery-item, .signature-item, .featured-pool').forEach(el => {
-        observer.observe(el);
+    }, {
+        threshold: 0.2,
+        rootMargin: '0px 0px -50px 0px'
     });
 
-    // Special handling for closing hero text
-    const closingHeroText = document.querySelector('.index-closing-text');
-    if (closingHeroText) {
-        observer.observe(closingHeroText);
-    }
-}
-
-function initHeroSlider() {
-    const sliderWrapper = document.querySelector('.heroSlider');
-    if (!sliderWrapper || sliderWrapper.dataset.sliderInitialized === 'true') {
-        return;
-    }
-
-    const sliderTrack = sliderWrapper.querySelector('.slider');
-    const slides = sliderTrack ? Array.from(sliderTrack.querySelectorAll('.slide')) : [];
-    if (!sliderTrack || slides.length === 0) {
-        return;
-    }
-
-    sliderWrapper.dataset.sliderInitialized = 'true';
-
-    // 단일 슬라이드인 경우
-    if (slides.length <= 1) {
-        slides.forEach((slide) => {
-            slide.style.position = 'absolute';
-            slide.style.top = '0';
-            slide.style.left = '0';
-            slide.style.width = '100%';
-            slide.style.height = '100%';
-            slide.style.opacity = '1';
-        });
-        return;
-    }
-
-    // fade 슬라이더를 위한 스타일 설정
-    const FADE_DURATION_MS = 800;
-    sliderTrack.style.position = 'relative';
-    slides.forEach((slide, index) => {
-        slide.style.position = 'absolute';
-        slide.style.top = '0';
-        slide.style.left = '0';
-        slide.style.width = '100%';
-        slide.style.height = '100%';
-        slide.style.opacity = index === 0 ? '1' : '0';
-        slide.style.transition = `opacity ${FADE_DURATION_MS / 1000}s ease-in-out`;
-        slide.style.zIndex = index === 0 ? '2' : '1';
-    });
-
-    let currentIndex = 0;
-    let autoSlideTimer = null;
-    let isTransitioning = false;
-
-    const prevButton = sliderWrapper.querySelector('.prev');
-    const nextButton = sliderWrapper.querySelector('.next');
-
-    const goToSlide = (index) => {
-        if (isTransitioning) return;
-
-        const newIndex = (index + slides.length) % slides.length;
-        if (newIndex === currentIndex) return;
-
-        isTransitioning = true;
-
-        // 현재 슬라이드 숨기기
-        slides[currentIndex].style.opacity = '0';
-        slides[currentIndex].style.zIndex = '1';
-
-        // 새 슬라이드 보이기
-        slides[newIndex].style.opacity = '1';
-        slides[newIndex].style.zIndex = '2';
-
-        currentIndex = newIndex;
-
-        setTimeout(() => {
-            isTransitioning = false;
-        }, FADE_DURATION_MS); // 트랜지션 시간과 맞춤
-    };
-
-    const nextSlide = () => {
-        goToSlide(currentIndex + 1);
-    };
-
-    const prevSlide = () => {
-        goToSlide(currentIndex - 1);
-    };
-
-    const startAutoSlide = () => {
-        stopAutoSlide();
-        autoSlideTimer = setInterval(() => {
-            nextSlide();
-        }, 5000);
-    };
-
-    const stopAutoSlide = () => {
-        if (autoSlideTimer) {
-            clearInterval(autoSlideTimer);
-            autoSlideTimer = null;
-        }
-    };
-
-    prevButton?.addEventListener('click', () => {
-        prevSlide();
-        startAutoSlide();
-    });
-
-    nextButton?.addEventListener('click', () => {
-        nextSlide();
-        startAutoSlide();
-    });
-
-    // Desktop hover behavior
-    sliderWrapper.addEventListener('mouseenter', () => {
-        // Only stop auto-slide on desktop
-        if (window.innerWidth > 768) {
-            stopAutoSlide();
-        }
-    });
-    sliderWrapper.addEventListener('mouseleave', () => {
-        // Only restart on desktop
-        if (window.innerWidth > 768) {
-            startAutoSlide();
-        }
-    });
-
-    // Touch swipe support for mobile
-    let touchStartX = 0;
-    let touchEndX = 0;
-
-    sliderWrapper.addEventListener('touchstart', (e) => {
-        touchStartX = e.changedTouches[0].screenX;
-    }, { passive: true });
-
-    sliderWrapper.addEventListener('touchend', (e) => {
-        touchEndX = e.changedTouches[0].screenX;
-        handleSwipe();
-    }, { passive: true });
-
-    const handleSwipe = () => {
-        const swipeThreshold = 50;
-        const diff = touchStartX - touchEndX;
-
-        if (Math.abs(diff) > swipeThreshold) {
-            if (diff > 0) {
-                // Swipe left - next slide
-                nextSlide();
-            } else {
-                // Swipe right - previous slide
-                prevSlide();
-            }
-            // Keep auto-slide running on mobile
-            if (window.innerWidth <= 768) {
-                startAutoSlide();
-            }
-        }
-    };
-
-    // resize 이벤트에서는 특별한 처리가 필요하지 않음 (fade 방식)
-
-    // 초기화
-    startAutoSlide();
-}
-
-function initSpecialSlider() {
-    // 상수 정의
-    const MOBILE_BREAKPOINT = 1024;
-    const MOBILE_VISIBLE_SLIDES = 1;
-    const DESKTOP_VISIBLE_SLIDES = 3;
-    const AUTO_SLIDE_INTERVAL_MS = 3000;
-    const SINGLE_SLIDE_THRESHOLD = 1;
-
-    const containers = document.querySelectorAll('.specialSlider');
-
-    containers.forEach((container) => {
-        if (!container || container.dataset.specialSliderInitialized === 'true') {
-            return;
-        }
-
-        const track = container.querySelector('.slider');
-        if (!track) return;
-
-        const originalSlides = Array.from(track.children);
-        if (originalSlides.length === 0) return;
-
-        const prevButton = container.querySelector('.prev');
-        const nextButton = container.querySelector('.next');
-
-        // 유효한 이미지가 있는 슬라이드만 필터링 (empty-image-placeholder는 포함)
-        const validSlides = originalSlides.filter(slide => {
-            const img = slide.querySelector('img');
-            if (!img || !img.src || img.src === '') return false;
-
-            // empty-image-placeholder는 유효한 슬라이드로 처리
-            if (img.classList.contains('empty-image-placeholder')) return true;
-
-            // 빈 이미지나 플레이스홀더 제외 (empty-image-placeholder 제외)
-            const invalidPatterns = [
-                'placeholder',
-                'about:blank',
-                'data:image/gif;base64,R0lGOD', // 빈 gif
-                'undefined'
-            ];
-
-            // data:image/svg+xml이지만 empty-image-placeholder가 아닌 경우만 제외
-            if (img.src.includes('data:image/svg+xml') && !img.classList.contains('empty-image-placeholder')) {
-                return false;
-            }
-
-            return !invalidPatterns.some(pattern => img.src.includes(pattern)) &&
-                   (img.src.startsWith('http') || img.classList.contains('empty-image-placeholder'));
-        });
-
-        // 슬라이드가 없어도 컨테이너는 숨기지 않음 (empty placeholder가 표시되어야 하므로)
-        if (validSlides.length === 0) {
-            // 모든 슬라이드가 유효하지 않은 경우에만 숨김
-            return;
-        }
-
-        // 단일 슬라이드인 경우
-        if (validSlides.length <= SINGLE_SLIDE_THRESHOLD) {
-            track.innerHTML = '';
-            track.appendChild(validSlides[0].cloneNode(true));
-            if (prevButton) prevButton.style.display = 'none';
-            if (nextButton) nextButton.style.display = 'none';
-            container.dataset.specialSliderInitialized = 'true';
-            return;
-        }
-
-        // 기본 슬라이더 설정
-        track.innerHTML = '';
-        validSlides.forEach(slide => {
-            track.appendChild(slide.cloneNode(true));
-        });
-
-        const slides = Array.from(track.children);
-        let currentIndex = 0;
-        let autoSlideTimer = null;
-
-        // 반응형 슬라이드 설정
-        const getVisibleSlidesCount = () => window.innerWidth <= MOBILE_BREAKPOINT ? MOBILE_VISIBLE_SLIDES : DESKTOP_VISIBLE_SLIDES;
-
-        const updateSlideLayout = () => {
-            const visibleSlides = getVisibleSlidesCount();
-
-            slides.forEach(slide => {
-                slide.style.flex = `0 0 calc(100% / ${visibleSlides})`;
-                slide.style.minWidth = 0;
-            });
-
-            return visibleSlides;
-        };
-
-        const goToSlide = (index) => {
-            const visibleSlides = updateSlideLayout();
-            currentIndex = Math.max(0, Math.min(index, slides.length - visibleSlides));
-            const slideWidth = container.getBoundingClientRect().width / visibleSlides;
-            track.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
-            updateButtonStates();
-        };
-
-        const updateButtonStates = () => {
-            const visibleSlides = getVisibleSlidesCount();
-
-            if (prevButton) {
-                prevButton.style.opacity = currentIndex === 0 ? '0.3' : '1';
-                prevButton.style.pointerEvents = currentIndex === 0 ? 'none' : 'auto';
-            }
-
-            if (nextButton) {
-                nextButton.style.opacity = currentIndex >= slides.length - visibleSlides ? '0.3' : '1';
-                nextButton.style.pointerEvents = currentIndex >= slides.length - visibleSlides ? 'none' : 'auto';
-            }
-        };
-
-        const startAutoSlide = () => {
-            stopAutoSlide();
-            autoSlideTimer = setInterval(() => {
-                const visibleSlides = getVisibleSlidesCount();
-                if (currentIndex >= slides.length - visibleSlides) {
-                    goToSlide(0);
-                } else {
-                    goToSlide(currentIndex + 1);
-                }
-            }, AUTO_SLIDE_INTERVAL_MS);
-        };
-
-        const stopAutoSlide = () => {
-            if (autoSlideTimer) {
-                clearInterval(autoSlideTimer);
-                autoSlideTimer = null;
-            }
-        };
-
-        prevButton?.addEventListener('click', () => {
-            goToSlide(currentIndex - 1);
-            startAutoSlide();
-        });
-
-        nextButton?.addEventListener('click', () => {
-            goToSlide(currentIndex + 1);
-            startAutoSlide();
-        });
-
-        // 호버 시 자동 슬라이드 멈춤
-        container.addEventListener('mouseenter', () => {
-            if (window.innerWidth > MOBILE_BREAKPOINT) stopAutoSlide();
-        });
-
-        container.addEventListener('mouseleave', () => {
-            if (window.innerWidth > MOBILE_BREAKPOINT) startAutoSlide();
-        });
-
-        // 모바일 터치 스와이프
-        let touchStartX = 0;
-        let touchEndX = 0;
-
-        container.addEventListener('touchstart', (e) => {
-            touchStartX = e.changedTouches[0].screenX;
-            stopAutoSlide();
-        }, { passive: true });
-
-        container.addEventListener('touchend', (e) => {
-            touchEndX = e.changedTouches[0].screenX;
-            const swipeThreshold = 50;
-            const diff = touchStartX - touchEndX;
-
-            if (Math.abs(diff) > swipeThreshold) {
-                if (diff > 0) {
-                    goToSlide(currentIndex + 1);
-                } else {
-                    goToSlide(currentIndex - 1);
-                }
-            }
-            startAutoSlide();
-        }, { passive: true });
-
-        // 창 크기 변경 시 재조정
-        window.addEventListener('resize', () => {
-            goToSlide(currentIndex);
-        });
-
-        // 초기화
-        goToSlide(0);
-        startAutoSlide();
-        container.dataset.specialSliderInitialized = 'true';
+    animateElements.forEach((element, index) => {
+        // 순차적 애니메이션을 위한 지연 시간 설정
+        element.dataset.delay = index * 100;
+        observer.observe(element);
     });
 }
 
-// 전역으로 노출
-window.initHeroSlider = initHeroSlider;
-window.initSpecialSlider = initSpecialSlider;
+// 모바일 일반 스크롤 활성화 함수
+function enableMobileScroll() {
+    // body와 html 스크롤 활성화
+    document.documentElement.style.overflow = 'auto';
+    document.documentElement.style.height = 'auto';
+    document.body.style.overflow = 'auto';
+    document.body.style.height = 'auto';
 
-// Initialize everything when DOM is loaded
+    // fullpage 컨테이너 스타일 초기화
+    const fullpage = document.getElementById('fullpage');
+    if (fullpage) {
+        fullpage.style.height = 'auto';
+        fullpage.style.overflow = 'visible';
+    }
+
+    // 모든 섹션 높이 자동으로
+    const sections = document.querySelectorAll('.section, .fp-section');
+    sections.forEach(section => {
+        section.style.height = 'auto';
+        section.style.minHeight = (section.classList.contains('hero-section') || section.classList.contains('closing-section')) ? '50vh' : '100vh';
+        section.classList.remove('fp-section');
+    });
+
+    // Navigation dots 숨기기
+    const fpNav = document.querySelector('.fp-nav');
+    if (fpNav) {
+        fpNav.style.display = 'none';
+    }
+}
+
+// 전역 초기화 함수 (mapper에서 호출 가능)
+let heroSliderInstance = null;
+let gallerySliderInstance = null;
+
+window.initHeroSlider = function() {
+    if (heroSliderInstance) {
+        heroSliderInstance.stop();
+    }
+    heroSliderInstance = new HeroSlider();
+    heroSliderInstance.init();
+};
+
+window.initGallerySlider = function() {
+    if (gallerySliderInstance) {
+        gallerySliderInstance.stop();
+    }
+    gallerySliderInstance = new GallerySlider();
+    gallerySliderInstance.init();
+};
+
+// DOM 로드 시 실행
 document.addEventListener('DOMContentLoaded', () => {
-    initScrollAnimations();
+    // Hero Slider 초기화 (mapper 전에 실행될 수 있으므로 슬라이드 없으면 스킵)
+    // mapper의 reinitializeSliders()에서 다시 호출됨
+    window.initHeroSlider();
 
-    // iframe 환경(어드민 미리보기)에서는 PreviewHandler가 초기화 담당
-    if (!window.APP_CONFIG.isInIframe()) {
-        // 일반 환경: IndexMapper가 직접 초기화
-        const indexMapper = new IndexMapper();
-        indexMapper.initialize()
-            .then(() => {
-                initHeroSlider();
-                initSpecialSlider();
-            })
-            .catch(() => {
-                initHeroSlider();
-                initSpecialSlider();
-            });
+    // Gallery Slider 초기화 (모든 디바이스에서)
+    window.initGallerySlider();
+
+    // 모바일이 아닐 때만 Fullpage Scroll 초기화
+    let fullpageScroll = null;
+    if (window.innerWidth > 768) {
+        fullpageScroll = new FullpageScroll();
+
+        // 페이지 로드 완료 후 현재 섹션 애니메이션 체크 (더 빠르게)
+        setTimeout(() => {
+            fullpageScroll.checkAndTriggerCurrentSectionAnimation();
+        }, 300);
     }
-    // iframe 환경에서는 PreviewHandler가 initHeroSlider/initSpecialSlider 호출
+
+    // 스크롤 감지 초기화
+    initScrollDetection();
+
+    // 모바일에서 일반 스크롤 활성화
+    if (window.innerWidth <= 768) {
+        enableMobileScroll();
+        initMobileAnimations();
+    } else {
+        // 데스크톱에서 완전한 로드 후 애니메이션 활성화 (필요시에만)
+        window.addEventListener('load', () => {
+            if (fullpageScroll) {
+                // 현재 스크롤 위치가 히어로 섹션이 아닌 경우에만 실행
+                if (window.scrollY > window.innerHeight * 0.5) {
+                    setTimeout(() => {
+                        fullpageScroll.checkAndTriggerCurrentSectionAnimation();
+                    }, 100);
+                }
+            }
+        });
+    }
+
+    // 페이지 로드 시 텍스트 즉시 표시 설정
+    setTimeout(() => {
+        const scrollPosition = window.scrollY + window.innerHeight / 2;
+        const sections = document.querySelectorAll('.fp-section');
+
+        sections.forEach((section, index) => {
+            const sectionTop = section.offsetTop;
+            const sectionBottom = sectionTop + section.offsetHeight;
+
+            // 현재 보이는 섹션인지 확인
+            const isCurrentSection = scrollPosition >= sectionTop && scrollPosition <= sectionBottom;
+
+            // 히어로 섹션이 아닌 경우 처리
+            if (!section.classList.contains('hero-section')) {
+                const elements = section.querySelectorAll('.animate-element');
+
+                if (isCurrentSection) {
+                    // 현재 보이는 섹션은 텍스트를 즉시 표시
+                    elements.forEach(el => {
+                        el.style.opacity = '1';
+                        el.style.transform = 'translateY(0)';
+                        el.classList.add('animate');
+                    });
+                } else {
+                    // 다른 섹션들은 애니메이션 대기 상태로
+                    elements.forEach(el => {
+                        el.classList.remove('animate');
+                        el.style.removeProperty('opacity');
+                        el.style.removeProperty('transform');
+                    });
+                }
+            }
+        });
+    }, 100);
+
+    // Signature 썸네일 자동 및 클릭 이벤트
+    const signatureThumbs = document.querySelectorAll('.signature-thumb');
+    const signatureMainImage = document.getElementById('signature-main-image');
+    let signatureCurrentIndex = 0;
+    let signatureInterval = null;
+
+    function changeSignatureImage(index) {
+        // 모든 썸네일에서 active 클래스 제거
+        signatureThumbs.forEach(t => t.classList.remove('active'));
+        // 선택된 썸네일에 active 클래스 추가
+        signatureThumbs[index].classList.add('active');
+
+        // 메인 이미지 변경
+        const newImageSrc = signatureThumbs[index].getAttribute('data-image');
+        if (signatureMainImage && newImageSrc) {
+            signatureMainImage.style.opacity = '0';
+            setTimeout(() => {
+                signatureMainImage.src = newImageSrc;
+                signatureMainImage.style.opacity = '1';
+            }, 250);
+        }
+    }
+
+    // 자동 슬라이드 시작
+    function startSignatureAutoSlide() {
+        signatureInterval = setInterval(() => {
+            signatureCurrentIndex = (signatureCurrentIndex + 1) % signatureThumbs.length;
+            changeSignatureImage(signatureCurrentIndex);
+        }, 4000); // 4초마다 변경
+    }
+
+    // 자동 슬라이드 중지
+    function stopSignatureAutoSlide() {
+        if (signatureInterval) {
+            clearInterval(signatureInterval);
+            signatureInterval = null;
+        }
+    }
+
+    // 썸네일 클릭 이벤트
+    signatureThumbs.forEach((thumb, index) => {
+        thumb.addEventListener('click', function() {
+            stopSignatureAutoSlide(); // 자동 슬라이드 중지
+            signatureCurrentIndex = index;
+            changeSignatureImage(index);
+            // 3초 후 자동 슬라이드 재시작
+            setTimeout(startSignatureAutoSlide, 3000);
+        });
+    });
+
+    // 자동 슬라이드 시작
+    if (signatureThumbs.length > 0) {
+        startSignatureAutoSlide();
+    }
 });
