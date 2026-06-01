@@ -1,17 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <script src="js/config.js"></script>    <meta charset="UTF-8">
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/png" data-homepage-images-0-logo-0-url>
-    <title data-homepage-seo-title>오시는길</title>
-    <meta name="description" data-homepage-seo-description content="">
-    <meta name="keywords" data-homepage-seo-keywords content="">
-    <link rel="stylesheet" href="styles/common.css" />
-    <link rel="stylesheet" href="styles/direction.css" />
+    <meta name="description" content="숙소 설명">
+    <meta name="keywords" content="SEO 키워드">
+    <title>오시는길 - 숙소명</title>
 
-    <link rel="stylesheet" href="styles/theme.css" />
-    <!-- Open Graph Meta Tags for Social Media -->
+    <link rel="stylesheet" href="styles/theme.css">
+    <link rel="stylesheet" href="styles/common.css">
+    <link rel="stylesheet" href="styles/slider.css">
+    <link rel="stylesheet" href="styles/directions.css">
+
+  <!-- Open Graph Meta Tags for Social Media -->
   <meta property="og:type" content="website" />
   <meta property="og:title" content="양평 솔베르크 독채풀빌라 - 오시는길" />
   <meta property="og:description" content="개별 온수풀빌라와 제트스파, 넓은 테라스에서 개별바베큐를 즐길 수 있는 솔베르크 풀빌라입니다." />
@@ -24,90 +25,112 @@
   <meta name="twitter:description" content="개별 온수풀빌라와 제트스파, 넓은 테라스에서 개별바베큐를 즐길 수 있는 솔베르크 풀빌라입니다." />
   <meta name="twitter:image" content="https://jlnjajtcnyqupfaqjerz.supabase.co/storage/v1/object/public/app-images/property/d15f9dd3-7fe4-4997-b938-d789e153803a/thumbnail/1774233180208-khc6jhovknp.jpg" />
 </head>
-  <body>
-    <div class="wrapper mainWrap">
-      <main>
-        <section class="con2">
-          <nav class="subNav">
-            <h2>
-              오시는길
-            </h2>
-            <p class="mt5">
-              <span data-property-name>제주 포레스트</span> 오시는길을 안내 드립니다.
-            </p>
-          </nav>
-        </section>
-        
-        <section class="con3 content-section" style="margin-top: 0; margin-bottom: 50px">
-          <div class="fBanner" data-homepage-customFields-pages-directions-sections-0-hero-images data-bg-extra="fixed">
-          </div>
-      </section>
-
-      <section class="content-section address-info-section">
-        <div class="content-container">
-          <!-- Resort Info Section -->
-          <div class="resort-info textCenter">
-              <div class="info-grid">
-                  <div class="info-content">
-                      <div class="address-section">
-                          <div class="address-item">
-                              <div class="address-details">
-                                  <p>
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align: middle; margin-right: 8px;">
-                                      <path d="M21 10C21 17 12 23 12 23S3 17 3 10C3 5.02944 7.02944 1 12 1C16.9706 1 21 5.02944 21 10Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                      <circle cx="12" cy="10" r="3" stroke="currentColor" stroke-width="2"/>
-                                    </svg>
-                                    도로명 주소 : <span data-property-address></span>
-                                  </p>
-                              </div>
-                          </div>
-                          <!-- 향후 지번주소 활성화 예정 -->
-                          <!-- <div class="address-item">
-                              <div class="address-details">
-                                  <p>지번 주소 : <span data-property-lot-address></span></p>
-                              </div>
-                          </div> -->
-                      </div>
-
-                      <!-- Directions Notice Section -->
-                      <div class="notice-section" data-directions-notice-section>
-                        <div class="directions-notice">
-                          <span class="directions-notice-label" data-directions-notice-title></span>
-                          <pre class="directions-notice-value" data-property-directions-notice-description></pre>
-                        </div>
-                      </div>
-                      
-                  </div>
-              </div>
-          </div>
-      </div>
-      </section>
-          <section class="mapSection" aria-labelledby="map-heading">
-            <div class="mapCard">
-              <div class="mapCard__body">
-                <!-- Kakao Map -->
-                <div id="kakao-map"></div>
-              </div>
+<body>
+    <main class="main-content">
+         <!-- CUSTOM FIELD : 메인 소개 섹션 -->
+        <!-- homepage.customFields.pages.directions.sections[0].hero.images 매핑 -->
+        <section class="hero-section hero-center-bottom">
+            <div class="hero-slider" data-hero-slider>
+                <!-- 동적으로 hero-slide가 생성됩니다 -->
             </div>
-          </section>
-      </main>
-    </div>
-    <!-- Kakao Map SDK -->
-    <script src="js/kakao-maps-sdk.js"></script>
+           <!-- 페이지명 하드코딩 -->
+            <div class="hero-property-title">DIRECTIONS</div>
+            <div class="hero-bottom-info">
+                <div class="hero-progress-container">
+                    <button class="hero-nav-prev" aria-label="Previous slide">&lt;</button>
+                    <span class="current-slide hero-indicators" data-current-slide>01</span>
+                    <div class="hero-progress-bar">
+                        <div class="hero-progress-fill" data-hero-progress></div>
+                    </div>
+                    <span class="total-slides hero-indicators" data-total-slides>02</span>
+                    <button class="hero-nav-next" aria-label="Next slide">&gt;</button>
+                </div>
+            </div>
+        </section>
+        <section class="location-section">
+            <div class="location-content">
+                <!-- property.name + "오시는 길" 매핑 -->
+                <h2 class="about-title animate-element" data-directions-title>
+                    <span data-property-name></span> 오시는 길
+                </h2>
+                <div class="location-details animate-element">
+                    <div class="location-address-wrapper animate-element">
+                        <svg class="location-icon" xmlns="http://www.w3.org/2000/svg" viewBox="-0.5 0 25 25" fill="none">
+                            <path d="M12 12C14.4853 12 16.5 9.98528 16.5 7.5C16.5 5.01472 14.4853 3 12 3C9.51472 3 7.5 5.01472 7.5 7.5C7.5 9.98528 9.51472 12 12 12Z" stroke="currentColor" stroke-miterlimit="10" stroke-linecap="round"/>
+                            <path d="M12 14.0137V22" stroke="currentColor" stroke-miterlimit="10" stroke-linecap="round"/>
+                        </svg>
+                        <!-- property.address 매핑 -->
+                        <p class="location-address" data-directions-address></p>
+                    </div>
+                </div>
+                <!-- homepage.customFields.pages.directions.sections[0].notice.description 매핑 -->
+                <!-- 데이터 없으면 display: none -->
+                <div class="location-note animate-element" data-directions-notes>
+                    <!-- 동적으로 p 태그가 생성됩니다 -->
+                </div>
 
-    <!-- Image Helpers -->
+                <!-- 지도 섹션 -->
+                <div class="map-wrapper animate-element">
+                    <div class="map-container">
+                        <div id="kakao-map"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- property.images[0].exterior 첫번째 이미지 배경 매핑 -->
+    <section class="full-banner">
+      <!-- property.nameEn 매핑 (uppercase) -->
+      <h2 class="full-banner-title" data-directions-banner-title></h2>
+      <div class="full-banner-circle" data-directions-banner-bg></div>
+    </section>
+
+    <!-- property.nameEn 매핑 (uppercase, 5개 span 반복) -->
+    <div class="marquee-section">
+      <div class="marquee-container">
+        <div class="marquee-text" data-marquee-property-name>
+          <!-- 동적으로 span이 생성됩니다 -->
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Kakao Map SDK -->
+    <script type="text/javascript" src="js/kakao-maps-sdk.js"></script>
+
+    <!-- Include ImageWithFallback script (standard-template-data.json에서만 필요) -->
+    <!-- <script src="js/image-with-fallback.js"></script> -->
+
+    <!-- Common JavaScript -->
+    <script src="js/common.js"></script>
+
+    <!-- Image Helpers (매핑 시 주석 해제 필요) -->
     <script src="js/image-helpers.js"></script>
-    <script src="js/image-with-fallback.js"></script>
+
+    <!-- Base Data Mapper -->
     <script src="js/data-mapper/core/base-mapper.js"></script>
+
+    <!-- Directions Page Mapper -->
     <script src="js/data-mapper/pages/directions-mapper.js"></script>
+
+    <!-- Preview Handler for Admin Integration -->
+    <script src="js/preview-handler.js"></script>
+
+    <!-- Header Footer Mapper -->
     <script src="js/data-mapper/pages/header-footer-mapper.js"></script>
+
+    <!-- Header and Footer Loader -->
     <script src="js/header-footer-loader.js"></script>
-    <script src="js/common/scroll-animation.js"></script>
-    <script src="js/common/header.js"></script>
-    <!-- iOS Parallax Fix -->
+
+    <!-- Fullscreen Slider Component -->
+    <script src="js/components/fullscreen-slider.js"></script>
+
+    <!-- Page-specific script -->
     <script src="js/pages/directions.js"></script>
 
-    <!-- Preview Handler (어드민 연동) -->
-    <script src="js/preview-handler.js"></script>
-  </body>
+    <!-- Scroll Animations -->
+    <script src="js/scroll-animations.js"></script>
+
+</body>
 </html>

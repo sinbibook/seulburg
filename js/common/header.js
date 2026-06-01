@@ -1,267 +1,225 @@
-/**
- * Header interactions used across modern pages.
- * Handles navigation, mobile menu toggling, and scroll styling.
- */
-(function () {
-    const PAGE_MAP = {
-        // home is handled separately in navigateTo function
-        main: 'main.html',
-        directions: 'directions.html',
-        'reservation-info': 'reservation.html',
-        room: 'room.html',
-    };
+// Header JavaScript
+(function() {
+    'use strict';
 
-    // Initialize variables - will be populated after DOM is ready
-    let headers;
-    let mobileMenu;
-    let mobileToggleButtons;
-    let desktopMenuItems;
-    let mobileHeaderItems;
-    let allMenuGroups;
-
-    function syncAriaExpanded(collection) {
-        collection.forEach((item) => {
-            const trigger = item.querySelector('a');
-            if (trigger) {
-                trigger.setAttribute('aria-expanded', item.classList.contains('is-open') ? 'true' : 'false');
+    // Scroll Effect for Transparent Header (rAF-throttled)
+    let headerScrollTicking = false;
+    window.addEventListener('scroll', function() {
+        if (headerScrollTicking) return;
+        headerScrollTicking = true;
+        requestAnimationFrame(function() {
+            const header = document.querySelector('.transparent-header');
+            const body = document.body;
+            if (header) {
+                if (window.scrollY > 50) {
+                    header.classList.add('scrolled');
+                    body.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                    body.classList.remove('scrolled');
+                }
             }
+            headerScrollTicking = false;
         });
-    }
+    }, { passive: true });
 
-    let isMobileMenuOpen = false;
+    // Toggle Menu Overlay
+    window.toggleMenuOverlay = function() {
+        const menuOverlay = document.getElementById('menu-overlay');
+        const menuToggle = document.getElementById('menu-toggle');
+        const menuText = menuToggle ? menuToggle.querySelector('.menu-text') : null;
+        const overlayBg = document.getElementById('menu-overlay-bg');
+        const body = document.body;
 
-    function updateHeaderAppearance() {
-        const shouldActivate = window.scrollY > 40;
-        headers.forEach((headerEl) => {
-            if (!headerEl) return;
-            headerEl.classList.toggle('scrolled', shouldActivate);
-        });
-    }
+        if (!menuOverlay || !menuToggle) return;
 
+        const isActive = menuOverlay.classList.contains('active');
 
-    function closeMobileMenu() {
-        if (!isMobileMenuOpen) return;
-        isMobileMenuOpen = false;
+        if (isActive) {
+            // Close menu
+            menuOverlay.classList.remove('active');
+            menuToggle.classList.remove('active');
+            body.classList.remove('menu-open');
+            if (overlayBg) overlayBg.classList.remove('active');
 
-        mobileMenu?.classList.remove('is-open');
-        mobileMenu?.setAttribute('aria-hidden', 'true');
-
-        document.querySelectorAll('.mobile-toggle').forEach(btn => {
-            btn.classList.remove('is-active');
-            btn.setAttribute('aria-expanded', 'false');
-        });
-
-        document.body.style.overflow = '';
-        document.body.classList.remove('mobile-menu-open');
-
-        if (allMenuGroups && allMenuGroups.length > 0) {
-            allMenuGroups.forEach(closeAllMenuItems);
-        }
-    }
-
-    function openMobileMenu() {
-        if (isMobileMenuOpen) return;
-        isMobileMenuOpen = true;
-
-        mobileMenu?.classList.add('is-open');
-        mobileMenu?.setAttribute('aria-hidden', 'false');
-
-        document.querySelectorAll('.mobile-toggle').forEach(btn => {
-            btn.classList.add('is-active');
-            btn.setAttribute('aria-expanded', 'true');
-        });
-
-        document.body.style.overflow = 'hidden';
-        document.body.classList.add('mobile-menu-open');
-    }
-
-    function toggleMobileMenu() {
-        if (isMobileMenuOpen) {
-            closeMobileMenu();
+            // Change text back to MENU
+            if (menuText) {
+                menuText.textContent = 'MENU';
+            }
         } else {
-            openMobileMenu();
-        }
-    }
-
-    function navigateTo(page) {
-        if (!page) return;
-
-        if (page === 'reservation-link') {
-            // DOM에서 동적으로 생성된 예약 링크 URL 가져오기
-            const reservationLink = document.querySelector('[data-property-realtime-booking-url]');
-            const reservationUrl = reservationLink?.getAttribute('href');
-            if (reservationUrl) {
-                window.open(reservationUrl, '_blank');
+            // Open menu
+            // Change text to CLOSE
+            if (menuText) {
+                menuText.textContent = 'CLOSE';
             }
-            closeMobileMenu();
-            return;
+
+
+            menuOverlay.classList.add('active');
+            menuToggle.classList.add('active');
+            body.classList.add('menu-open');
+            if (overlayBg) overlayBg.classList.add('active');
+        }
+    };
+
+    // Keep the old function name for compatibility
+    window.toggleSideHeader = window.toggleMenuOverlay;
+
+    // Navigation function
+    window.navigateTo = function(page, id = null) {
+        // Close menu overlay if open
+        const menuOverlay = document.getElementById('menu-overlay');
+        if (menuOverlay && menuOverlay.classList.contains('active')) {
+            toggleMenuOverlay();
         }
 
-        if (page === 'home') {
-            window.location.href = 'index.html';
-            closeMobileMenu();
-            return;
+        // Navigate to page
+        let url = '';
+        switch(page) {
+            case 'home':
+                url = 'index.html';
+                break;
+            case 'main':
+                url = 'main.html';
+                break;
+            case 'directions':
+                url = 'directions.html';
+                break;
+            case 'reservation-info':
+                url = 'reservation.html';
+                break;
+            case 'room':
+                url = 'room.html';
+                break;
+            case 'facility':
+                url = 'facility.html';
+                break;
+            case 'reservation':
+                url = 'reservation.html';
+                break;
+            default:
+                url = page + '.html';
         }
 
-        const targetPath = PAGE_MAP[page];
-        if (targetPath) {
-            // All files are in root directory
-            window.location.href = targetPath;
-            closeMobileMenu();
-            return;
+        // Navigate to URL (preserve preview query string and add id if provided)
+        if (url) {
+            const currentParams = new URLSearchParams(window.location.search);
+            const isPreview = currentParams.get('preview');
+            const params = new URLSearchParams();
+
+            if (id) {
+                params.set('id', id);
+            }
+            if (isPreview) {
+                params.set('preview', isPreview);
+            }
+
+            const queryString = params.toString();
+            if (queryString) {
+                url += '?' + queryString;
+            }
+
+            window.location.href = url;
         }
-    }
+    };
 
-    window.toggleMobileMenu = toggleMobileMenu;
-    window.navigateTo = navigateTo;
-    function closeAllMenuItems(collection) {
-        collection.forEach((item) => item.classList.remove('is-open'));
-        syncAriaExpanded(collection);
-    }
+    // Initialize Accordion Menu
+    function initializeAccordionMenu() {
+        const menuItems = document.querySelectorAll('.menu-item');
 
-    function toggleMenuItem(item, collection) {
-        const alreadyOpen = item.classList.contains('is-open');
-        closeAllMenuItems(collection);
-        if (!alreadyOpen) {
-            item.classList.add('is-open');
-        }
-        syncAriaExpanded(collection);
-    }
+        // 기본적으로 모든 메뉴 열기
+        menuItems.forEach(item => {
+            item.classList.add('accordion-active');
 
-    function attachMenuToggleHandlers(menuItems, options = {}) {
-        menuItems.forEach((item) => {
-            const trigger = item.querySelector('a');
-            if (!trigger) return;
+            // 타이틀 클릭 이벤트 추가
+            const title = item.querySelector('.menu-item-title');
+            if (title) {
+                title.addEventListener('click', function(e) {
+                    e.stopPropagation();
 
-            trigger.addEventListener('click', (event) => {
-                const shouldHandle = options.shouldHandle ? options.shouldHandle() : true;
-                if (!shouldHandle) return;
+                    // 다른 메뉴들 닫기 (선택적 - 한 번에 하나만 열리게 하려면)
+                    // menuItems.forEach(otherItem => {
+                    //     if (otherItem !== item) {
+                    //         otherItem.classList.remove('accordion-active');
+                    //     }
+                    // });
 
-                if (trigger.getAttribute('href') === 'javascript:void(0)') {
-                    event.preventDefault();
-                }
-
-                toggleMenuItem(item, menuItems);
-            });
-
-            trigger.addEventListener('keydown', (event) => {
-                if ((event.key === 'Enter' || event.key === ' ') && (!options.shouldHandle || options.shouldHandle())) {
-                    event.preventDefault();
-                    toggleMenuItem(item, menuItems);
-                }
-            });
+                    // 현재 메뉴 토글
+                    item.classList.toggle('accordion-active');
+                });
+            }
         });
     }
 
-    // Initialize DOM elements and event listeners
+    // Check and set header state based on scroll position
+    function checkInitialScroll() {
+        const header = document.querySelector('.transparent-header');
+
+        if (header) {
+            if (window.scrollY > 50 || window.pageYOffset > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        }
+    }
+
+
+
+    // Initialize header immediately (since this script is loaded dynamically)
     function initializeHeader() {
-        // Populate DOM element references
-        headers = Array.from(document.querySelectorAll('.header, .mHd'));
-        mobileMenu = document.getElementById('mobile-menu');
-        mobileToggleButtons = Array.from(document.querySelectorAll('.mobile-toggle'));
+        // Initialize header functions
 
-        // Mobile reservation button will be handled by header-footer-mapper.js
-        // No need to initialize here as it uses the same mapping as other realtime booking links
+        // Check initial scroll position
+        checkInitialScroll();
 
-        desktopMenuItems = Array.from(document.querySelectorAll('.header .mainMenu > li'));
-        mobileHeaderItems = Array.from(document.querySelectorAll('.mHd .mainMenu > li'));
-        allMenuGroups = [desktopMenuItems, mobileHeaderItems];
+        // Initialize menu toggle button
+        const menuToggle = document.getElementById('menu-toggle');
+        if (menuToggle) {
+            menuToggle.addEventListener('click', function(e) {
+                e.preventDefault();
+                toggleMenuOverlay();
+            });
+        }
+
+        // Initialize accordion menu
+        initializeAccordionMenu();
 
 
-        // Setup menu toggle handlers
-        attachMenuToggleHandlers(desktopMenuItems, {
-            shouldHandle: () => window.innerWidth >= 1024
-        });
+        // Initialize overlay click event
+        const overlayBg = document.getElementById('menu-overlay-bg');
+        if (overlayBg) {
+            overlayBg.addEventListener('click', function() {
+                toggleMenuOverlay();
+            });
+        }
 
-        attachMenuToggleHandlers(mobileHeaderItems, {
-            shouldHandle: () => window.innerWidth < 1024
-        });
+        // Initialize YBS booking button
+        const ybsBookingBtn = document.querySelector('[data-ybs-booking]');
+        if (ybsBookingBtn) {
+            ybsBookingBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                // Add YBS booking functionality here
+                console.log('YBS Booking clicked');
+            });
+        }
 
-        allMenuGroups.forEach(syncAriaExpanded);
-
-        // Setup mobile toggle buttons
-        mobileToggleButtons.forEach(btn => {
-            btn.addEventListener('click', (event) => {
-                event.preventDefault();
-                event.stopPropagation();
-                toggleMobileMenu();
+        // Initialize mobile booking buttons
+        const mobileBookingBtns = document.querySelectorAll('.mobile-booking-btn');
+        mobileBookingBtns.forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                // Add mobile booking functionality here
+                console.log('Mobile booking clicked:', this.textContent);
             });
         });
-
-        // Global click handler
-        document.addEventListener('click', (event) => {
-            const target = event.target;
-
-            if (isMobileMenuOpen) {
-                const clickInsideMenu = mobileMenu?.contains(target);
-                const clickOnToggle = mobileToggleButtons?.some(btn => btn.contains(target));
-                if (!clickInsideMenu && !clickOnToggle) {
-                    closeMobileMenu();
-                }
-            }
-
-            if (window.innerWidth >= 1024) {
-                const insideMenu = target.closest('.header .mainMenu');
-                if (!insideMenu) {
-                    closeAllMenuItems(desktopMenuItems);
-                }
-            }
-        });
-
-        // Resize handler
-        window.addEventListener('resize', () => {
-            if (window.innerWidth >= 1024) {
-                closeMobileMenu();
-            }
-            allMenuGroups.forEach(closeAllMenuItems);
-            allMenuGroups.forEach(syncAriaExpanded);
-        });
-
-        // Scroll handler
-        window.addEventListener('scroll', updateHeaderAppearance, { passive: true });
-        updateHeaderAppearance();
     }
 
-    // Mobile submenu toggle function
-    function toggleMobileSubmenu(element) {
-        const menuSection = element.closest('.mobile-menu-section');
-        if (!menuSection) return;
+    // Call initialization immediately
+    initializeHeader();
 
-        const isOpen = menuSection.classList.contains('is-open');
-
-        // Close all other mobile menu sections
-        const allSections = Array.from(document.querySelectorAll('.mobile-menu-section'));
-        allSections.forEach((section) => {
-            if (section !== menuSection) {
-                section.classList.remove('is-open');
-            }
-        });
-
-        // Toggle current menu section
-        menuSection.classList.toggle('is-open', !isOpen);
-    }
-
-    // Expose global functions
-    window.toggleMobileMenu = toggleMobileMenu;
-    window.closeMobileMenu = closeMobileMenu;
-    window.openMobileMenu = openMobileMenu;
-    window.navigateTo = navigateTo;
-    window.toggleMobileSubmenu = toggleMobileSubmenu;
-    window.showSubMenus = () => {
-        if (window.innerWidth >= 1024) {
-            desktopMenuItems.forEach((item) => item.classList.add('is-open'));
-        }
-    };
-    window.hideSubMenus = () => {
-        allMenuGroups.forEach(closeAllMenuItems);
-    };
-
-    // Initialize when DOM is ready
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initializeHeader);
-    } else {
-        // DOM already loaded, initialize immediately
-        initializeHeader();
-    }
+    // Also check when window loads (for refresh scenarios)
+    window.addEventListener('load', function() {
+        checkInitialScroll();
+    });
 
 })();

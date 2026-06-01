@@ -1,17 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <script src="js/config.js"></script>    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/png" data-homepage-images-0-logo-0-url>
-    <title data-homepage-seo-title>Document</title>
-    <meta name="description" data-homepage-seo-description content="">
-    <meta name="keywords" data-homepage-seo-keywords content="">
-    <link rel="stylesheet" href="styles/common.css" />
-    <link rel="stylesheet" href="styles/main.css" />
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="숙소 설명">
+  <meta name="keywords" content="SEO 키워드">
+  <title>숙소명 - 소개</title>
 
-    <link rel="stylesheet" href="styles/theme.css" />
-    <!-- Open Graph Meta Tags for Social Media -->
+  <link rel="stylesheet" href="styles/theme.css">
+  <link rel="stylesheet" href="styles/common.css">
+  <link rel="stylesheet" href="styles/main.css">
+
+  <!-- Open Graph Meta Tags for Social Media -->
   <meta property="og:type" content="website" />
   <meta property="og:title" content="양평 솔베르크 독채풀빌라 - 숙소소개" />
   <meta property="og:description" content="개별 온수풀빌라와 제트스파, 넓은 테라스에서 개별바베큐를 즐길 수 있는 솔베르크 풀빌라입니다." />
@@ -24,42 +24,90 @@
   <meta name="twitter:description" content="개별 온수풀빌라와 제트스파, 넓은 테라스에서 개별바베큐를 즐길 수 있는 솔베르크 풀빌라입니다." />
   <meta name="twitter:image" content="https://jlnjajtcnyqupfaqjerz.supabase.co/storage/v1/object/public/app-images/property/d15f9dd3-7fe4-4997-b938-d789e153803a/thumbnail/1774233180208-khc6jhovknp.jpg" />
 </head>
-  <body>
-    <div class="wrapper mainWrap">
-      <main>
-        <section class="con2">
-          <nav class="subNav">
-            <h2 data-homepage-customFields-pages-main-sections-0-hero-title>
-            </h2>
-            <p class="mt5" data-homepage-customFields-pages-main-sections-0-hero-description>
-            </p>
-          </nav>
-        </section>
-        <section class="con1 fullPage con1Room" style="height: auto;">
-          <div class="fBanner" data-homepage-customFields-pages-main-sections-0-hero-images-0-url data-bg-extra="fixed">
+<body>
+  <main class="main-content">
+      <!-- CUSTOM FIELD : 메인 소개 섹션 -->
+      <!-- homepage.customFields.pages.main.sections[0].hero.images 매핑 -->
+      <section class="hero-section hero-center-bottom">
+          <div class="hero-slider" data-hero-slider>
+              <!-- 동적으로 hero-slide가 생성됩니다 -->
           </div>
-        </section>
-        <section class="con2 mainIntroSection" style="margin-top: 50px !important;">
-          <div class="about-sections-container">
-            <!-- About sections will be dynamically generated here -->
+          <!-- 페이지명 하드코딩 -->
+          <div class="hero-property-title">PROLOGUE</div>
+          <div class="hero-bottom-info">
+              <div class="hero-progress-container">
+                  <button class="hero-nav-prev" aria-label="Previous slide">&lt;</button>
+                  <span class="current-slide hero-indicators" data-current-slide>01</span>
+                  <div class="hero-progress-bar">
+                      <div class="hero-progress-fill" data-hero-progress></div>
+                  </div>
+                  <span class="total-slides hero-indicators" data-total-slides>02</span>
+                  <button class="hero-nav-next" aria-label="Next slide">&gt;</button>
+              </div>
           </div>
-        </section>
-      </main>  
-    </div>
-    <!-- Image Helpers -->
-    <script src="js/image-helpers.js"></script>
+      </section>
+      <div class="main-about-section">
+          <div class="main-about-content">
+              <!-- homepage.customFields.pages.main.sections[0].hero.title 매핑 -->
+              <h2 class="main-about-title" data-main-about-title></h2>
+              <!-- homepage.customFields.pages.main.sections[0].hero.description 매핑 -->
+              <p class="main-about-description" data-main-about-description></p>
+          </div>
 
-    <script src="js/image-with-fallback.js"></script>
-    <script src="js/data-mapper/core/base-mapper.js"></script>
-    <script src="js/data-mapper/pages/main-mapper.js"></script>
-    <script src="js/data-mapper/pages/header-footer-mapper.js"></script>
-    <script src="js/header-footer-loader.js"></script>
-    <script src="js/common/scroll-animation.js"></script>
-    <script src="js/common/header.js"></script>
-    <!-- iOS Parallax Fix -->
-    <script src="js/pages/main.js"></script>
+          <!-- CUSTOM FIELD : 소개 섹션 / 동적 블록 생성 영역 / 최소 블럭 1개 -->
+          <!-- homepage.customFields.pages.main.sections[0].about[] 매핑 -->
+          <section class="intro-section">
+            <!-- 동적으로 intro-block이 생성됩니다 -->
+          </section>
+        </div>
 
-    <!-- Preview Handler (어드민 연동) -->
-    <script src="js/preview-handler.js"></script>
-  </body>
+      <!-- property.images[0].exterior[] 첫번째 이미지 매핑 -->
+      <section class="full-banner" data-main-banner>
+        <!-- property.nameEn 매핑 -->
+        <h2 class="full-banner-title" data-main-banner-title></h2>
+        <!-- property.images[0].exterior[] 첫번째 이미지 매핑 -->
+        <div class="full-banner-circle" data-main-banner-bg></div>
+      </section>
+
+      <!-- property.nameEn 매핑 (uppercase, 5개 span 반복) -->
+      <div class="marquee-section">
+        <div class="marquee-container">
+          <div class="marquee-text" data-marquee-property-name>
+            <!-- 동적으로 span이 생성됩니다 -->
+          </div>
+        </div>
+      </div>
+  </main>
+
+  <!-- Include ImageWithFallback script (standard-template-data.json에서만 필요) -->
+  <!-- <script src="js/image-with-fallback.js"></script> -->
+
+  <!-- Image Helpers -->
+  <script src="js/image-helpers.js"></script>
+
+  <!-- Base Data Mapper (must load before preview-handler) -->
+  <script src="js/data-mapper/core/base-mapper.js"></script>
+
+  <!-- Preview Handler for Admin Integration -->
+  <script src="js/preview-handler.js"></script>
+
+  <!-- Main Page Mapper -->
+  <script src="js/data-mapper/pages/main-mapper.js"></script>
+
+  <!-- Header Footer Mapper -->
+  <script src="js/data-mapper/pages/header-footer-mapper.js"></script>
+
+  <!-- Header and Footer Loader -->
+  <script src="js/header-footer-loader.js"></script>
+
+  <!-- Fullscreen Slider Component -->
+  <script src="js/components/fullscreen-slider.js"></script>
+
+  <!-- Page-specific script -->
+  <script type="module" src="js/pages/main.js"></script>
+
+  <!-- Scroll Animations -->
+  <script src="js/scroll-animations.js"></script>
+
+</body>
 </html>
