@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "version": "1.30.0",
-    "generatedAt": "2026-07-24T06:18:04.607355583Z",
+    "version": "1.31.0",
+    "generatedAt": "2026-07-24T06:23:44.240923919Z",
     "templateType": "fullpage_scroll",
     "propertyId": "d15f9dd3-7fe4-4997-b938-d789e153803a",
     "homepageId": "74674c96-f959-455a-8a1e-83dd1889b767"
@@ -1342,8 +1342,8 @@
                 "title": "Seulburg Pool Villa",
                 "images": [
                   {
-                    "id": "1046de53-95f3-4af2-982a-9f9b8988610b",
-                    "url": "https://jlnjajtcnyqupfaqjerz.supabase.co/storage/v1/object/public/app-images/homepage/74674c96-f959-455a-8a1e-83dd1889b767/index_hero/1762487168851-qnyszjfhsze.jpg",
+                    "id": "ee53845d-b22c-4306-b18a-e3bc1aff43a3",
+                    "url": "https://jlnjajtcnyqupfaqjerz.supabase.co/storage/v1/object/public/app-images/homepage/74674c96-f959-455a-8a1e-83dd1889b767/index_hero/1763025223745-c9sn17mgyno.jpg",
                     "sortOrder": 0,
                     "description": "",
                     "isSelected": true,
@@ -1390,8 +1390,8 @@
                     "blockId": null
                   },
                   {
-                    "id": "6d93ee7f-a339-47e2-a8b7-14b2f293c215",
-                    "url": "https://jlnjajtcnyqupfaqjerz.supabase.co/storage/v1/object/public/app-images/homepage/74674c96-f959-455a-8a1e-83dd1889b767/index_hero/1762917392575-pb6eo2e92h.jpg",
+                    "id": "1046de53-95f3-4af2-982a-9f9b8988610b",
+                    "url": "https://jlnjajtcnyqupfaqjerz.supabase.co/storage/v1/object/public/app-images/homepage/74674c96-f959-455a-8a1e-83dd1889b767/index_hero/1762487168851-qnyszjfhsze.jpg",
                     "sortOrder": 6,
                     "description": "",
                     "isSelected": true,
@@ -1422,8 +1422,8 @@
                     "blockId": null
                   },
                   {
-                    "id": "ee53845d-b22c-4306-b18a-e3bc1aff43a3",
-                    "url": "https://jlnjajtcnyqupfaqjerz.supabase.co/storage/v1/object/public/app-images/homepage/74674c96-f959-455a-8a1e-83dd1889b767/index_hero/1763025223745-c9sn17mgyno.jpg",
+                    "id": "6d93ee7f-a339-47e2-a8b7-14b2f293c215",
+                    "url": "https://jlnjajtcnyqupfaqjerz.supabase.co/storage/v1/object/public/app-images/homepage/74674c96-f959-455a-8a1e-83dd1889b767/index_hero/1762917392575-pb6eo2e92h.jpg",
                     "sortOrder": 10,
                     "description": "",
                     "isSelected": true,
