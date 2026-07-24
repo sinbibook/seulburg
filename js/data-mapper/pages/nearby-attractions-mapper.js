@@ -44,6 +44,9 @@ class NearbyAttractionsMapper extends BaseDataMapper {
         this.mapBannerSection();
         this.mapMarqueeSection();
 
+        // 메타 태그 및 SEO 업데이트 (인증코드 포함, 전 페이지 공통)
+        this.updateMetaTags();
+
         // 애니메이션 초기화
         if (window.setupNearbyAttractionsAnimations) {
             setTimeout(() => window.setupNearbyAttractionsAnimations(), 100);
