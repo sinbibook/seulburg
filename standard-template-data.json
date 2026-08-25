@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "version": "1.39.0",
-    "generatedAt": "2026-08-25T09:09:05.906419726Z",
+    "version": "1.40.0",
+    "generatedAt": "2026-08-25T09:11:08.763239206Z",
     "templateType": "fullpage_scroll",
     "propertyId": "d15f9dd3-7fe4-4997-b938-d789e153803a",
     "homepageId": "74674c96-f959-455a-8a1e-83dd1889b767"
@@ -1399,8 +1399,8 @@
                 "title": " ",
                 "images": [
                   {
-                    "id": "728f5881-41bb-4a5c-99c4-6ff9e3efcc86",
-                    "url": "https://jlnjajtcnyqupfaqjerz.supabase.co/storage/v1/object/public/app-images/homepage/74674c96-f959-455a-8a1e-83dd1889b767/index_closing/1763083148491-9f1a0k20yy.jpg",
+                    "id": "848e5dbb-baf7-45a3-be1c-0014027679c0",
+                    "url": "https://jlnjajtcnyqupfaqjerz.supabase.co/storage/v1/object/public/app-images/homepage/74674c96-f959-455a-8a1e-83dd1889b767/index_closing/1787649066781-nm4axyfx6f.jpg",
                     "sortOrder": 0,
                     "description": "",
                     "isSelected": true,
@@ -1429,42 +1429,42 @@
                 "title": "Preview",
                 "images": [
                   {
-                    "id": "732d1b25-a5aa-45b1-8349-be7b204aef6a",
-                    "url": "https://jlnjajtcnyqupfaqjerz.supabase.co/storage/v1/object/public/app-images/homepage/74674c96-f959-455a-8a1e-83dd1889b767/index_gallery/1780295629144-k9frawf8ep.jpg",
+                    "id": "0b33cae3-6c1d-4117-a169-5c63e34c2435",
+                    "url": "https://jlnjajtcnyqupfaqjerz.supabase.co/storage/v1/object/public/app-images/homepage/74674c96-f959-455a-8a1e-83dd1889b767/index_gallery/1787649066769-7210emxdtp.jpg",
                     "sortOrder": 0,
-                    "description": " ",
+                    "description": "풀빌라",
                     "isSelected": true,
                     "blockId": null
                   },
                   {
-                    "id": "b03a95cf-f8d1-4d08-9a0b-8502716d18ca",
-                    "url": "https://jlnjajtcnyqupfaqjerz.supabase.co/storage/v1/object/public/app-images/homepage/74674c96-f959-455a-8a1e-83dd1889b767/index_gallery/1780295629048-ed7bsihjjg.jpg",
+                    "id": "7a5d4aa8-607f-4bfc-8cdb-ea387197c798",
+                    "url": "https://jlnjajtcnyqupfaqjerz.supabase.co/storage/v1/object/public/app-images/homepage/74674c96-f959-455a-8a1e-83dd1889b767/index_gallery/1787649066777-w8b4bdq7uj.jpg",
                     "sortOrder": 1,
-                    "description": " ",
+                    "description": "개별바베큐",
                     "isSelected": true,
                     "blockId": null
                   },
                   {
-                    "id": "96c596f2-52d0-4658-82de-dbd1c941a686",
-                    "url": "https://jlnjajtcnyqupfaqjerz.supabase.co/storage/v1/object/public/app-images/homepage/74674c96-f959-455a-8a1e-83dd1889b767/index_gallery/1780295629044-ev4f4ikw1v.jpg",
+                    "id": "48d4486d-0d61-4bd3-b36d-c8cfbd3de442",
+                    "url": "https://jlnjajtcnyqupfaqjerz.supabase.co/storage/v1/object/public/app-images/homepage/74674c96-f959-455a-8a1e-83dd1889b767/index_gallery/1787649066772-udvof681q3.jpg",
                     "sortOrder": 2,
-                    "description": " ",
+                    "description": "포레스트뷰",
                     "isSelected": true,
                     "blockId": null
                   },
                   {
-                    "id": "f01453f1-03a8-4ca4-b0d5-7c9d6b79c84d",
-                    "url": "https://jlnjajtcnyqupfaqjerz.supabase.co/storage/v1/object/public/app-images/homepage/74674c96-f959-455a-8a1e-83dd1889b767/index_gallery/1780295629052-95z6jvjj4x.jpg",
+                    "id": "5ec1cfbe-f1ef-4e39-9db4-20d839ec6e3b",
+                    "url": "https://jlnjajtcnyqupfaqjerz.supabase.co/storage/v1/object/public/app-images/homepage/74674c96-f959-455a-8a1e-83dd1889b767/index_gallery/1787649066773-r2fwkcycbc.jpg",
                     "sortOrder": 3,
-                    "description": " ",
-                    "isSelected": true,
+                    "description": "테라스",
+                    "isSelected": false,
                     "blockId": null
                   },
                   {
-                    "id": "fc9625b1-fbcc-4538-939c-32561aad665c",
-                    "url": "https://jlnjajtcnyqupfaqjerz.supabase.co/storage/v1/object/public/app-images/homepage/74674c96-f959-455a-8a1e-83dd1889b767/index_gallery/1780295629148-dik5b4o4m1.jpg",
+                    "id": "239ac468-2326-4c3b-938b-ac3449c59a66",
+                    "url": "https://jlnjajtcnyqupfaqjerz.supabase.co/storage/v1/object/public/app-images/homepage/74674c96-f959-455a-8a1e-83dd1889b767/index_gallery/1787649066777-30mvvvmnlp.jpg",
                     "sortOrder": 4,
-                    "description": " ",
+                    "description": "테라스",
                     "isSelected": true,
                     "blockId": null
                   }
@@ -1476,25 +1476,33 @@
                 "title": "휴식에 집중하는 시간",
                 "images": [
                   {
-                    "id": "0d6267e9-62a2-4f0a-9964-97d928f8f704",
-                    "url": "https://jlnjajtcnyqupfaqjerz.supabase.co/storage/v1/object/public/app-images/homepage/74674c96-f959-455a-8a1e-83dd1889b767/index_signature/1780295629055-g86iol7s8q.jpg",
+                    "id": "4919e4e8-0d58-4db3-85dd-f0af03d3b6cd",
+                    "url": "https://jlnjajtcnyqupfaqjerz.supabase.co/storage/v1/object/public/app-images/homepage/74674c96-f959-455a-8a1e-83dd1889b767/index_signature/1787649066779-kgxlkgmt9u.jpg",
                     "sortOrder": 0,
-                    "description": "",
+                    "description": "풀빌라",
                     "isSelected": true,
                     "blockId": null
                   },
                   {
-                    "id": "ee203e96-7fb9-4de1-8182-f2f25635e70e",
-                    "url": "https://jlnjajtcnyqupfaqjerz.supabase.co/storage/v1/object/public/app-images/homepage/74674c96-f959-455a-8a1e-83dd1889b767/index_signature/1780295629149-pp3qmhrx5e.jpg",
+                    "id": "5c9cf838-ef1e-46bc-94b6-2ac524363b48",
+                    "url": "https://jlnjajtcnyqupfaqjerz.supabase.co/storage/v1/object/public/app-images/homepage/74674c96-f959-455a-8a1e-83dd1889b767/index_signature/1787649066779-4w9tl2pc3j.jpg",
                     "sortOrder": 1,
+                    "description": "개별바베큐",
+                    "isSelected": true,
+                    "blockId": null
+                  },
+                  {
+                    "id": "6dd25c21-143a-44f6-9f86-922792c33941",
+                    "url": "https://jlnjajtcnyqupfaqjerz.supabase.co/storage/v1/object/public/app-images/homepage/74674c96-f959-455a-8a1e-83dd1889b767/index_signature/1787649066780-4mya6v94aw.jpg",
+                    "sortOrder": 2,
                     "description": "",
                     "isSelected": true,
                     "blockId": null
                   },
                   {
-                    "id": "a2dbd4d0-6db3-4c7b-9513-efba1a24cf09",
-                    "url": "https://jlnjajtcnyqupfaqjerz.supabase.co/storage/v1/object/public/app-images/homepage/74674c96-f959-455a-8a1e-83dd1889b767/index_signature/1780295629178-u4s2nybq03.jpg",
-                    "sortOrder": 2,
+                    "id": "d7d20d22-2c18-4ebf-ad2e-b7ab28cc426c",
+                    "url": "https://jlnjajtcnyqupfaqjerz.supabase.co/storage/v1/object/public/app-images/homepage/74674c96-f959-455a-8a1e-83dd1889b767/index_signature/1787649066779-uoba0iifqy.jpg",
+                    "sortOrder": 3,
                     "description": "",
                     "isSelected": true,
                     "blockId": null
