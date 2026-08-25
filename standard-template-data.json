@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "version": "1.45.0",
-    "generatedAt": "2026-08-25T09:16:32.632026407Z",
+    "version": "1.46.0",
+    "generatedAt": "2026-08-25T09:19:17.272536421Z",
     "templateType": "fullpage_scroll",
     "propertyId": "d15f9dd3-7fe4-4997-b938-d789e153803a",
     "homepageId": "74674c96-f959-455a-8a1e-83dd1889b767"
@@ -1521,19 +1521,19 @@
                 "title": "",
                 "images": [
                   {
-                    "id": "236bf52c-f526-4a36-86ff-43895acb9691",
-                    "url": "https://jlnjajtcnyqupfaqjerz.supabase.co/storage/v1/object/public/app-images/homepage/74674c96-f959-455a-8a1e-83dd1889b767/directions_hero/1762917392576-2pnjgfygqu2.jpg",
+                    "id": "a8aef82f-5c93-45f3-bda4-45fbee759d92",
+                    "url": "https://jlnjajtcnyqupfaqjerz.supabase.co/storage/v1/object/public/app-images/homepage/74674c96-f959-455a-8a1e-83dd1889b767/directions_hero/1762917392576-kymcdhe6z3p.jpg",
                     "sortOrder": 0,
                     "description": "",
-                    "isSelected": true,
+                    "isSelected": false,
                     "blockId": null
                   },
                   {
-                    "id": "a8aef82f-5c93-45f3-bda4-45fbee759d92",
-                    "url": "https://jlnjajtcnyqupfaqjerz.supabase.co/storage/v1/object/public/app-images/homepage/74674c96-f959-455a-8a1e-83dd1889b767/directions_hero/1762917392576-kymcdhe6z3p.jpg",
+                    "id": "ab650a6d-276d-44e0-b798-7fc7004a9336",
+                    "url": "https://jlnjajtcnyqupfaqjerz.supabase.co/storage/v1/object/public/app-images/homepage/74674c96-f959-455a-8a1e-83dd1889b767/directions_hero/1787649555499-semqx6bbyf.jpg",
                     "sortOrder": 1,
                     "description": "",
-                    "isSelected": false,
+                    "isSelected": true,
                     "blockId": null
                   }
                 ]
@@ -1552,8 +1552,8 @@
                 "title": "양평 솔베르크 독채 풀빌라",
                 "images": [
                   {
-                    "id": "fd51fec5-7dd5-44c5-be48-20cbfb43ecaf",
-                    "url": "https://jlnjajtcnyqupfaqjerz.supabase.co/storage/v1/object/public/app-images/homepage/74674c96-f959-455a-8a1e-83dd1889b767/main_hero/1762917392576-567seszg1pr.jpg",
+                    "id": "c29d73bd-553e-481a-b828-906bb2c7f7eb",
+                    "url": "https://jlnjajtcnyqupfaqjerz.supabase.co/storage/v1/object/public/app-images/homepage/74674c96-f959-455a-8a1e-83dd1889b767/main_hero/1787649555497-agqlx4ehr3.jpg",
                     "sortOrder": 0,
                     "description": "",
                     "isSelected": true,
@@ -1570,6 +1570,14 @@
                       "id": "132a7369-84a5-46c7-94cc-36ac378c4f58",
                       "url": "https://jlnjajtcnyqupfaqjerz.supabase.co/storage/v1/object/public/app-images/homepage/74674c96-f959-455a-8a1e-83dd1889b767/main_about/1780295792464-v3mxbwh8sn.jpg",
                       "sortOrder": 0,
+                      "description": "",
+                      "isSelected": false,
+                      "blockId": "a63e6fc9-c6d7-4860-a159-062a80aee728"
+                    },
+                    {
+                      "id": "dec1c8e1-251a-486f-b36c-e23312d8d024",
+                      "url": "https://jlnjajtcnyqupfaqjerz.supabase.co/storage/v1/object/public/app-images/homepage/74674c96-f959-455a-8a1e-83dd1889b767/main_about/1787649555498-fdew9xh2t6.jpg",
+                      "sortOrder": 1,
                       "description": "",
                       "isSelected": true,
                       "blockId": "a63e6fc9-c6d7-4860-a159-062a80aee728"
@@ -1641,7 +1649,7 @@
                     "url": "https://jlnjajtcnyqupfaqjerz.supabase.co/storage/v1/object/public/app-images/homepage/74674c96-f959-455a-8a1e-83dd1889b767/reservation_hero/1763082930273-chuh9ri3zfs.jpg",
                     "sortOrder": 0,
                     "description": "",
-                    "isSelected": true,
+                    "isSelected": false,
                     "blockId": null
                   },
                   {
@@ -1673,7 +1681,7 @@
                     "url": "https://jlnjajtcnyqupfaqjerz.supabase.co/storage/v1/object/public/app-images/homepage/74674c96-f959-455a-8a1e-83dd1889b767/reservation_hero/1762917392576-9q02rdvps4h.jpg",
                     "sortOrder": 4,
                     "description": "",
-                    "isSelected": true,
+                    "isSelected": false,
                     "blockId": null
                   },
                   {
@@ -1682,6 +1690,14 @@
                     "sortOrder": 5,
                     "description": "",
                     "isSelected": false,
+                    "blockId": null
+                  },
+                  {
+                    "id": "f0236e7a-5322-4828-a262-90f5516890b8",
+                    "url": "https://jlnjajtcnyqupfaqjerz.supabase.co/storage/v1/object/public/app-images/homepage/74674c96-f959-455a-8a1e-83dd1889b767/reservation_hero/1787649555499-9dtk585g5b.jpg",
+                    "sortOrder": 6,
+                    "description": "",
+                    "isSelected": true,
                     "blockId": null
                   }
                 ]
