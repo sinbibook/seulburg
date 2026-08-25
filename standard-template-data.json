@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "version": "1.50.0",
-    "generatedAt": "2026-08-25T09:31:17.536211468Z",
+    "version": "1.51.0",
+    "generatedAt": "2026-08-25T09:32:06.427339698Z",
     "templateType": "fullpage_scroll",
     "propertyId": "d15f9dd3-7fe4-4997-b938-d789e153803a",
     "homepageId": "74674c96-f959-455a-8a1e-83dd1889b767"
@@ -1724,7 +1724,21 @@
           ]
         },
         "layoutMap": {
-          "sections": [ ]
+          "sections": [
+            {
+              "hero": {
+                "title": "",
+                "images": [ ],
+                "description": ""
+              },
+              "about": {
+                "title": "",
+                "images": [ ],
+                "description": ""
+              },
+              "enabled": false
+            }
+          ]
         }
       },
       "popup": {
