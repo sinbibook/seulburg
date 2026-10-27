@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "version": "1.56.0",
-    "generatedAt": "2026-10-27T00:56:43.819992681Z",
+    "version": "1.57.0",
+    "generatedAt": "2026-10-27T00:57:16.855223631Z",
     "templateType": "fullpage_scroll",
     "propertyId": "d15f9dd3-7fe4-4997-b938-d789e153803a",
     "homepageId": "74674c96-f959-455a-8a1e-83dd1889b767"
@@ -29,6 +29,9 @@
     "domain": "seulburg.kr",
     "realtimeBookingId": "https://map.naver.com/p/entry/place/1137069370",
     "ybsId": "78822",
+    "tripPropertyId": "9762",
+    "partnerType": "distributor_b",
+    "tripProviderName": "(주)신비서",
     "amenities": [
       "주차장",
       "편의점/매점",
@@ -496,10 +499,7 @@
         "surrounding": [ ],
         "commonArea": [ ]
       }
-    ],
-    "tripPropertyId": "9762",
-    "partnerType": "distributor_b",
-    "tripProviderName": "(주)신비서"
+    ]
   },
   "rooms": [
     {
